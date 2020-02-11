@@ -12,6 +12,24 @@ app.get("/add", function (req, res) {
     res.send((a+b).toString()); // send response body
 });
 
+app.get("/sub", function (req, res) {
+    var a = parseInt(req.query.a);
+    var b = parseFloat(req.query.b);
+    res.send((a-b).toString()); // send response body
+});
+
+app.get("/mul", function (req, res) {
+    var a = parseInt(req.query.a);
+    var b = parseFloat(req.query.b);
+    res.send((a*b).toString()); // send response body
+});
+
+app.get("/div", function (req, res) {
+    var a = parseInt(req.query.a);
+    var b = parseFloat(req.query.b);
+    res.send((a/b).toString()); // send response body
+});
+
 app.use(methodOverride());
 app.use(bodyParser());
 app.use(errorHandler());

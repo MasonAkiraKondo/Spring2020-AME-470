@@ -1,0 +1,169 @@
+<html>
+
+<head>
+<style>
+*{
+  font-family: arial;
+}
+#valA{
+  margin-left: 400px;
+  padding-right: 100px;
+
+}
+#feedListWrapper{
+  background-image: linear-gradient(grey, white);
+  height: 100%;
+  width: 100%;
+}
+#addFeedButton{
+  margin-left: 50%;
+}
+body{
+  margin:0;
+}
+#feedList{
+  height: 80vh;
+}
+#currFeedListWrapper{
+  background-image: linear-gradient(grey, white);
+}
+#feedList button{
+  width: 100%;
+  height: 40px;
+}
+#feedDetailsWrapper{
+  background-image: linear-gradient(grey, white);
+  height: 100%;
+  width: 100%;
+}
+#feedDetails{
+  text-align: center;
+  padding-bottom: 100px;
+}
+#feedArtwork{
+  padding-top: 100px;
+}
+#feedArtistName{
+  padding-top: 50px;
+}
+#feedName{
+  padding-top: 10px;
+}
+#feedReleaseDate{
+  padding-top: 10px;
+}
+
+</style>
+  <script src='asyncReq.js'> </script>
+
+  <script>
+    function addFeed(){
+      var a = document.getElementById("valA").value;
+      var url = "./addfeed?a=" + encodeURIComponent(a);
+      loadFile(url, function(data){
+        getAllFeeds();
+      });
+    }
+
+    function start(){
+      getAllFeeds();
+    }
+
+    allFeeds = [];
+    function getAllFeeds(){
+      document.getElementById("currFeedListWrapper").style.display = "none";
+      document.getElementById("feedDetailsWrapper").style.display = "none";
+      loadFile("./getallfeeds", function(data){
+        allFeeds = JSON.parse(data);
+        var markup = "";
+        for(var i = 0; i < allFeeds.length; i++){
+          markup = markup + "<button onclick='feedSelected("+ i + ")'>" + allFeeds[i] + "</button>";
+        }
+        document.getElementById("feedList").innerHTML = markup;
+      })
+    }
+
+    var currFeedData = {}
+
+    function feedSelected(index)
+    {
+      var url = allFeeds[index];
+      loadFile("./getrss?a=" + url, function(data){
+       currFeedData = JSON.parse(data);
+       var allItems = currFeedData.feed.results;
+       var markup = "";
+       for (var i = 0; i < allItems.length; i++){
+         markup += "<button onclick='itemSelected("+ i + ")'> <img src='"+ allItems[i].artworkUrl100 + "'><h1>" + allItems[i].name + "</h1><h2>" + allItems[i].artistName + "</h2></button>";
+       }
+        document.getElementById("currFeedList").innerHTML = markup;
+        document.getElementById("currFeedListWrapper").style.display = "block";
+        document.getElementById("feedListWrapper").style.display = "none";
+      });
+    }
+
+    function itemSelected(index){
+      var feedData = currFeedData.feed.results[index];
+      // For A3 generate `markup` here
+      var markup = "";
+      markup += "<img src='" + feedData.artworkUrl100 + "'>";
+      document.getElementById("feedArtwork").innerHTML = markup;
+
+      var markup = "";
+      markup += JSON.stringify(feedData.artistName);
+      document.getElementById("feedArtistName").innerHTML = markup;
+
+      var markup = "";
+      markup += JSON.stringify(feedData.name);
+      document.getElementById("feedName").innerHTML = markup;
+
+      var markup = "";
+      markup += JSON.stringify(feedData.releaseDate);
+      document.getElementById("feedReleaseDate").innerHTML = markup;
+
+      document.getElementById("currFeedListWrapper").style.display = "none";
+      document.getElementById("feedDetailsWrapper").style.display = "block";
+    }
+
+    function backToFeeds(){
+        document.getElementById("currFeedListWrapper").style.display = "none";
+        document.getElementById("feedListWrapper").style.display = "block";
+    }
+
+    function backToItems(){
+        document.getElementById("currFeedListWrapper").style.display = "block";
+        document.getElementById("feedDetailsWrapper").style.display = "none";
+    }
+  </script>
+</head>
+
+<body onload='start()'>
+
+<div id='feedListWrapper'>
+  <div id='feedList'></div>
+  <textarea id='valA'></textarea>
+  <br>
+  <div id="addFeedButton">
+    <button onclick='addFeed()'> Add Feed </button>
+  </div>
+</div>
+
+<div id='currFeedListWrapper'>
+  <button onclick='backToFeeds()'> Back</button>
+  <div id='currFeedList'></div>
+</div>
+
+<div id='feedDetailsWrapper'>
+  <button onclick='backToItems()'> Back</button>
+  <div id="feedDetails">
+    <div id='feedArtwork'></div>
+    <div id='feedArtistName'></div>
+    <div id='feedName'></div>
+    <div id='feedReleaseDate'></div>
+  </div>
+</div>
+
+
+
+</body>
+
+</html>
