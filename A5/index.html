@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Assignment 5</title>
+  </head>
+  <body>
+    <h2>
+      How to create and instance with AWS EC2 and deploy rssParser.
+    </h2>
+    <h3>
+      Step 1: Navigate to the Amazon Web Services EC2 home page.
+    </h3>
+      <img src="screenshots/Step 1.png" alt="step 1" height="300px" width="500px">
+    <h3>
+      Step 2: Click on the orange Launch Instance button.
+    </h3>
+    <img src="screenshots/Step 2.png" alt="step 1" height="300px" width="500px">
+    <h3>
+      Step 3: Select which Amazon Machine Image you want to use.
+    </h3>
+    <img src="screenshots/Step 3.png" alt="step 1" height="300px" width="1000px">
+    <h3>
+      Step 4: Select the t2.micro option.
+    </h3>
+    <img src="screenshots/Step 4.png" alt="step 1" height="100px" width="1000px">
+    <h3>
+      Step 5: Click Launch in the lower right hand of the screen.
+    </h3>
+    <img src="screenshots/Step 5.png" alt="step 1" height="300px" width="1000px">
+    <h3>
+      Step 6: Create and download a Key Pair for the instance.
+    </h3>
+    <img src="screenshots/Step 6.png" alt="step 1" height="300px" width="500px">
+    <h3>
+      Step 7: Make sure you see that your instance has launched.
+    </h3>
+    <img src="screenshots/Step 7.png" alt="step 1" height="300px" width="1000px">
+    <h3>
+      Step 8: Make sure that your instance has passed the two status checks.
+    </h3>
+    <img src="screenshots/Step 8.png" alt="step 1" height="300px" width="500px">
+    <h3>
+      Step 9: To connect to your instance choose the EC2 Instance Connect and press Connect.
+    </h3>
+    <img src="screenshots/Step 9.png" alt="step 1" height="300px" width="500px">
+    <h3>
+      Step 10: Now you should see a console for your instance.
+    </h3>
+    <img src="screenshots/Step 10.png" alt="step 1" height="300px" width="500px">
+    <h3>
+      Step 11: To copy the rssParser into your instance navigate to your local bash console and type in <br>
+      scp -i (yourpairkeyfilename).pem rssParser ec2-54-193-65-123.us-west-1.compute.amazonaws.com:services
+    </h3>
+    <h3>
+      Step 12: Now you are ready to type node server.js into your instance console and start the server for rssParser.
+    </h3>
+  </body>
+</html>
